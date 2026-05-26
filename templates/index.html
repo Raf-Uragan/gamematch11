@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block title %}GameMatch{% endblock %}
+
+{% block content %}
+<section class="hero">
+  <h1>Какие игры потянет ваш ПК?</h1>
+  <p class="hero-sub">Укажите процессор, видеокарту и память — мы подберём подходящие игры из каталога.</p>
+</section>
+
+{% if error %}
+<div class="alert alert-error" role="alert">{{ error }}</div>
+{% endif %}
+
+<form class="spec-form card" action="/match" method="post">
+  <div class="form-grid">
+    <label class="field">
+      <span class="field-label">Процессор (CPU)</span>
+      <select name="cpu" required>
+        <option value="" disabled selected>Выберите уровень CPU</option>
+        {% for value, label in options.cpu %}
+        <option value="{{ value }}">{{ label }}</option>
+        {% endfor %}
+      </select>
+    </label>
+
+    <label class="field">
+      <span class="field-label">Видеокарта (GPU)</span>
+      <select name="gpu" required>
+        <option value="" disabled selected>Выберите уровень GPU</option>
+        {% for value, label in options.gpu %}
+        <option value="{{ value }}">{{ label }}</option>
+        {% endfor %}
+      </select>
+    </label>
+
+    <label class="field">
+      <span class="field-label">Оперативная память (RAM)</span>
+      <select name="ram" required>
+        <option value="" disabled selected>Объём RAM</option>
+        {% for value, label in options.ram %}
+        <option value="{{ value }}">{{ label }}</option>
+        {% endfor %}
+      </select>
+    </label>
+
+    <label class="field">
+      <span class="field-label">Накопитель</span>
+      <select name="storage">
+        {% for value, label in options.storage %}
+        <option value="{{ value }}" {% if value == 'ssd' %}selected{% endif %}>{{ label }}</option>
+        {% endfor %}
+      </select>
+      <span class="field-hint">Влияет на время загрузки, не на FPS</span>
+    </label>
+  </div>
+
+  <button type="submit" class="btn btn-primary">Подобрать игры</button>
+</form>
+
+<section class="info-cards">
+  <article class="info-card">
+    <h3>175 игр</h3>
+    <p>От инди до AAA — шутеры, RPG, MMO, симуляторы и хорроры.</p>
+  </article>
+  <article class="info-card">
+    <h3>3 уровня</h3>
+    <p>Высокие, средние настройки или только минимум — понятная градация.</p>
+  </article>
+  <article class="info-card">
+    <h3>Готово к Vercel</h3>
+    <p>Flask + Python runtime — деплой в один клик через Git или CLI.</p>
+  </article>
+</section>
+{% endblock %}
